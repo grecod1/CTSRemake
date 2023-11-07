@@ -1,0 +1,111 @@
+﻿@{
+    string serverName = HttpContext.Current.Request.Url.Host;
+    string listDomain = @"http://list.doacs.state.fl.us";
+    if (serverName.Contains("dev") || serverName.Contains("localhost"))
+    {
+        listDomain = @"http://listdev.doacs.state.fl.us";
+    }
+    else if (serverName.Contains("test"))
+    {
+        listDomain = @"http://listtest.doacs.state.fl.us";
+    }
+    string sampleIndexView = listDomain + "/sample";
+    string taxonomyIndexView = listDomain + "/taxonomy";
+
+    ViewBag.Title = "Start Page";
+}
+
+<div class="jumbotron bg-light">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="mb-4 d-lg-block d-none display-4">Communication Tracking System<span class="fa fa-paper-plane-o ml-3 d-none d-lg-inline-block"></span></h2>
+            <h2 class="d-lg-none">Communication Tracking System</h2>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-12 card card-light">
+            <div class="list-group list-group-horizontal-lg text-center card-body">
+                <div class="col-lg-4 mt-2 mt-lg-0 list-group-item-light border-0">
+                    <h3 class="card-title"><span class="fa fa-paper-plane-o mr-2"></span>Create New Ticket</h3>
+                    <p>You can create a new ticket by clicking on the link below or clicking on the "Create Ticket" link at the top of the page.</p>
+                    <a class="btn btn-outline-primary btn-block d-block d-lg-none" href="/Ticket/Create">Create Ticket</a>
+                </div>
+                <div class="col-lg-4 mt-2 mt-lg-0 list-group-item-light border-0">
+                    <h3 class="card-title"><span class="fa fa-search mr-2"></span> Find, View and Edit Tickets</h3>
+                    <p>Click the link below to find a pre-existing ticket. You have the ability to edit, change routing information, and add additional notes on the ticket.</p>
+                    <a class="btn btn-outline-primary btn-block d-block d-lg-none" href="/Ticket/Index">Search Ticket</a>
+                </div>
+                <div class="col-lg-4 mt-2 mt-lg-0 list-group-item-light border-0 px-3">
+                    <h3 class="card-title"><span class="fa fa-book mr-2"></span>LIST</h3>
+                    <p>
+                        You can now look at sample information, identification results, ENPP Reports, 
+                        and taxonomic articles under the DPI LIST application. You can search 
+                        samples and their identifications under the LIST Search View and find 
+                        information on plants, insects, and other taxonomic lifeforms under 
+                        the Taxonomy Encylopedia.
+                    </p>
+                    <a class="btn btn-primary btn-block d-block d-lg-none" href="@sampleIndexView" target="_blank">
+                        <span class="fa fa-search mr-2"></span>
+                        LIST Search View
+                    </a>
+                    <a class="btn btn-primary btn-block d-block d-lg-none" href="@taxonomyIndexView" target="_blank"><span class="fa fa-book mr-2"></span>Taxonomy Encyclopedia</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row px-2">
+        <div class="col-lg-4 d-none d-lg-block">
+            <a class="btn btn-outline-primary btn-block" href="/Ticket/Create">Create Ticket</a>
+        </div>
+        <div class="col-lg-4 d-none d-lg-block">
+            <a class="btn btn-outline-primary btn-block" href="/Ticket/Index">Search Ticket</a>
+        </div>
+        <div class="col-lg-4 d-none d-lg-block">
+            <a class="btn btn-primary btn-block" href="@sampleIndexView" target="_blank">
+                <span class="fa fa-search mr-2"></span>
+                LIST Search View
+            </a>
+            <a class="btn btn-primary btn-block" href="@taxonomyIndexView" target="_blank">
+                <span class="fa fa-book mr-2"></span>
+                Taxonomy Encyclopedia
+            </a>
+        </div>
+    </div>
+</div>
+@if (TempData["Access"] != null) //Prevents Null Exception
+{
+    if (TempData["Access"].ToString() == "Denied")
+    {
+        //Executes when the user enters a page they do not have access to, Modal will show up
+        <div id="modal" class="modal" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><span class="text-danger fa fa-exclamation-triangle mr-1"></span>  @TempData["Restricted"]</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            You do not have access to this page, if you need to have access to this page please contact an administrator
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+
+<script>
+    $('document').ready(function () {
+        $('#modal').modal('show');
+        $('#modal').draggable();
+    })
+</script>
+

@@ -1,0 +1,147 @@
+﻿@model Helpline.ViewModels.TicketIndexViewModel
+
+@{
+    ViewBag.Title = "Ticket Archives";
+    SelectList selectRoutingCategory = new SelectList(Model.Select_RoutingCategory, "Id", "Name");
+    SelectList selectProgram = new SelectList(Model.Select_Program, "Id", "LongName");
+    SelectList selectRequestType = new SelectList(Model.Select_RequestType, "Id", "Name");
+    SelectList selectCommunicationType = new SelectList(Model.Select_CommunicationType, "Id", "Name");
+    SelectList selectCounty = new SelectList(Model.Select_Counties, "Id", "Name");
+    SelectList selectState = new SelectList(Model.Select_States);
+    SelectList selectStatus = new SelectList(Model.Select_Status, "Id", "Name");
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <h3 class="text-center">Archives</h3>
+    </div>
+</div>
+@using (Html.BeginForm("GetTickets", "Tickets", FormMethod.Get))
+{
+    <div class="row">
+        <div class="form-group col-sm-3">
+            @Html.LabelFor(model => model.TrackingNumber, new { @class = "form-control-label" })
+            @Html.TextBoxFor(model => model.TrackingNumber, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.LabelFor(model => model.StartDateRange, new { @class = "form-control-label", @for = "startDatePicker" })
+            @Html.TextBoxFor(model => model.StartDateRange, new { @Id = "startDatePicker", @class = "form-control DropDownGetData" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.LabelFor(model => model.EndDateRange, new { @class = "form-control-label", @for = "endDatePicker" })
+            @Html.TextBoxFor(model => model.EndDateRange, new { @Id = "endDatePicker", @class = "form-control DropDownGetData" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.LabelFor(model => model.CreatedBy_UserName, new { @class = "form-control-label" })
+            @Html.TextBoxFor(model => model.CreatedBy_UserName, new { @class = "form-control" })
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-3">
+            @Html.LabelFor(model => model.FirstName, new { @class = "form-control-label" })
+            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.LabelFor(model => model.LastName, new { @class = "form-control-label" })
+            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.LabelFor(m => m.RequestTypeId, new { @class = "form-control-label" })
+            @Html.DropDownListFor(m => m.RequestTypeId, selectRequestType, "Select Request Type", new { @class = "form-control DropDownGetData" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.LabelFor(m => m.CommunicationTypeId, new { @class = "form-control-label" })
+            @Html.DropDownListFor(m => m.CommunicationTypeId, selectCommunicationType, "Select Communication Type", new { @class = "form-control DropDownGetData" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-sm-3">
+            @Html.LabelFor(m => m.RouteCategoryId, new { @class = "form-control-label" })
+            @Html.DropDownListFor(m => m.RouteCategoryId, selectRoutingCategory, "Select Routing Category", new { @class = "form-control DropDownGetData" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.LabelFor(m => m.ProgramId, new { @class = "form-control-label" })
+            @Html.DropDownListFor(m => m.ProgramId, selectProgram, "Select Program", new { @class = "form-control DropDownGetData" })
+        </div>
+        <div class="form-group col-sm-2">
+            @Html.LabelFor(m => m.StatusId, new { @class = "form-control-label" })
+            @Html.DropDownListFor(m => m.StatusId, selectStatus, "Select Status", new { @class = "form-control DropDownGetData" })
+        </div>
+        <div class="form-group col-sm-3">
+            @Html.LabelFor(m => m.PhoneNumber)
+            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control"})
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-6 col-sm-3 col-xl-3">
+            @Html.LabelFor(model => model.StreetNumber, new { @class = "form-control-label" })
+            @Html.TextBoxFor(model => model.StreetNumber, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-12 col-sm-6 col-xl-3">
+            @Html.LabelFor(model => model.StreetName, new { @class = "form-control-label" })
+            @Html.TextBoxFor(model => model.StreetName, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group col-12 col-sm-6 col-xl-2">
+            @Html.LabelFor(model => model.City, new { @class = "form-control-label" })
+            @Html.TextBoxFor(model => model.City, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group col-12 col-sm-6 col-xl-2">
+            @Html.LabelFor(model => model.CountyId, new { @class = "form-control-label" })
+            @Html.DropDownListFor(model => model.CountyId, selectCounty, "Select County", new { @class = "form-control DropDownGetData" })
+        </div>
+
+        <div class="form-group col-12 col-sm-6 col-xl-2">
+            @Html.LabelFor(model => model.State)
+            @Html.DropDownListFor(model => model.State, selectState, "Select State", new { @class = "form-control DropDownGetData" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2 pull-left">
+            @Html.ActionLink("Current Tickets", "Index", "Ticket", null, new { @class = "btn btn-primary" })
+        </div>
+        <div class="col-sm-8 text-center mb-3">
+            <button id="GetData" class="btn btn-secondary" type="button"> <span class="fa fa-search mr-2"></span> Search</button>
+            <input id="reset" class="btn btn-warning" type="button" value="Clear Criteria" />
+
+        </div>
+    </div>
+}
+<div id="modal" class="modal" role="dialog">
+    <div class="modal-dialog border-primary" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="amount"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <div id="loading" class="fa fa-3x fa-cog fa-spin text-primary d-none" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <table id="Table" class="table table-striped data-table-primary"></table>
+    </div>
+</div>
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryArchives")
+}

@@ -1,0 +1,116 @@
+﻿@model Helpline.ViewModels.AdminViewModels.UpdateRoutingCategoryViewModel
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+@using (Html.BeginForm("RoutingCategory", "Administrator", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.Id)
+    <fieldset>
+        <h3 class="text-center">@Model.Name</h3>
+        @if (TempData["Error"] != null)
+        {
+            <p class="text-danger">@TempData["Error"]</p>
+        }
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="form-group col-12 col-lg-6">
+                    @Html.LabelFor(model => model.Name)
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control userField" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-12 col-lg-6">
+                    <label for="addEmail">Add Email</label>
+                    <div class="d-flex">
+                        <div class="input-group">
+                            <input id="addEmail" type="text" value="" class="form-control userField mr-4" maxlength="100" data-val="true" data-val-regex="Valid email only" />
+                            <button id="btnAddEmail" class="btn btn-primary userField" type="button"><span class="fa fa-plus"></span> Add</button>
+                        </div>
+                    </div>
+                    <span id="AddEmailRequired" class="is-invalid text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-lg-3 col-md-6 col-12 order-lg-1 order-4">
+                    <input id="submit" type="submit" value="Save" class="btn btn-success mr-1  mb-2" />
+                    @Html.ActionLink("Back to List", "RoutingCategories", "Administrator", null, new { @class = "btn btn-primary  mb-2" })
+                    @if (TempData["AlertSuccess"] != null)
+                    {
+                        <div class="alert alert-success bg-success text-light alert-fade text-center" role="alert">
+                            @TempData["AlertSuccess"]
+                        </div>
+                    }
+                    else if (TempData["AlertPreExist"] != null)
+                    {
+                        <div class="alert alert-danger text-center" role="alert">
+                            @TempData["AlertPreExist"]
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
+                </div>
+                <div class="col-lg-1 col-md-3 col-12 order-2 col-form-label">
+                    @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+                </div>
+                <div class="form-group col-lg-2 col-md-3 col-12 d-flex flex-column order-3">
+
+                    <select id="IsActive" class="form-control" name="IsActive">
+                        @if (Model.IsActive)
+                        {
+                            <option selected value="True">Active</option>
+                            <option value="False">Disabled</option>
+                        }
+                        else
+                        {
+                            <option value="True">Active</option>
+                            <option selected value="False">Disabled</option>
+                        }
+                    </select>
+                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                </div>
+                <div class="col-lg-6 col-12 order-lg-4 order-1">
+                    <table class="table table-bordered border-primary table-striped bg-white">
+                        <tbody id="emailTable">
+                            @if (Model.Emails != null)
+                            {
+                                foreach (string email in Model.Emails)
+                                {
+                                    <tr>
+                                        <td class="tdEmail w-75">@email<input type="hidden" class="EmailListItem" value="@email" data-val="true" /></td>
+                                        <td class="w-25 text-center"><button type="button" class="BTNRemove btn btn-danger btn-sm">Remove</button></td>
+                                    </tr>
+                                }
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="modalEmail" class="modal" role="dialog" aria-labelledby="modal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="modalErrorMessage" class="text-center"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+}
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/EditRoutingCategory")
+}

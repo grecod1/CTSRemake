@@ -1,0 +1,52 @@
+﻿@model Helpline.ViewModels.TicketViewModels.UpdateNoteViewModel
+
+@{
+    ViewBag.Title = "Edit Note";
+}
+<h3 class="text-center">Ticket # @Model.TicketId</h3>
+@if (TempData["Invalid"] != null)
+{
+    <p class="text-danger">Invalid Input</p>
+}
+
+@using (Html.BeginForm("EditNote", "Ticket", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.NoteId)
+    @Html.HiddenFor(model => model.TicketId)
+    <fieldset>
+        <legend>Created by @Model.CreatedByUser.Substring(6)  on @Model.CreationDate</legend>
+        <div class="row">
+            <div class="form-group col-sm-12">
+                @Html.LabelFor(model => model.CallerRemarks, new { @class = "form-control-label" })
+                @Html.TextAreaFor(model => model.CallerRemarks, 4, 1, new { @class = "form-control", @Maxlength = "10000" })
+                @Html.ValidationMessageFor(model => model.CallerRemarks, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-12">
+                @Html.LabelFor(model => model.Resolution, new { @class = "form-control-label" })
+                @Html.TextAreaFor(model => model.Resolution, 4, 1, new { @class = "form-control", @Maxlengh = "10000" })
+                @Html.ValidationMessageFor(model => model.Resolution, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-12">
+                @Html.LabelFor(model => model.Comments, new { @class = "form-control-label" })
+                @Html.TextAreaFor(model => model.Comments, 4, 1, new { @class = "form-control", @Maxlength = "10000" })
+                @Html.ValidationMessageFor(model => model.Comments, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-sm-6">
+                <input type="submit" value="Update Note" class="btn btn-success mr-2" />
+                @Html.ActionLink("Back To Ticket", "Details", "Ticket", new { @id = Model.TicketId }, new { @class = "btn btn-primary" })
+            </div>
+        </div>
+    </fieldset>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

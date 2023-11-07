@@ -1,0 +1,348 @@
+﻿@model Helpline.ViewModels.UpdateTicketViewModel
+
+@{
+    ViewBag.Title = "Edit Ticket";
+
+    SelectList communicationTypes = new SelectList(Model.Select_CommunicationType, "Id", "Name");
+    SelectList requestTypes = new SelectList(Model.Select_RequestType, "Id", "Name");
+    SelectList statuses = new SelectList(Model.Select_Status, "Id", "Name");
+    SelectList routingCategories = new SelectList(Model.Select_RoutingCategory, "Id", "Name");
+    SelectList programs = new SelectList(Model.Select_Program, "Id", "LongName");
+    SelectList select_ReferredFrom = new SelectList(Model.Select_ReferredFrom);
+    SelectList select_Bureau = new SelectList(Model.Select_Bureau);
+    SelectList EditOptions = new SelectList(Model.Select_EditOption);
+    SelectList selectStates = new SelectList(Model.Select_States);
+}
+
+
+<h3 class="text-center">Edit Ticket    #@Model.TicketId</h3>
+@if (TempData["Invalid"] != null)
+{
+    <p class="text-danger">@TempData["Invalid"]</p>
+}
+
+@using (Html.BeginForm("Edit", "Ticket", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.TicketId)
+    <div class="row">
+        <div class="form-group col-sm-6 col-xl-4">
+            @Html.LabelFor(model => model.EditOption, new { @class = "form-control-label" })
+            @Html.DropDownListFor(model => model.EditOption, EditOptions, new { @class = "form-control", @required = "true" })
+            @Html.ValidationMessageFor(model => model.EditOption, null, new { @class = "text-danger" })
+        </div>
+    </div>
+    <fieldset id="pnlCallInfo" class="hideable" style="display:none">
+        <legend>Edit Call Information</legend>
+        <div class="row">
+            <div class="form-group col-xl-3 col-sm-6">
+                @Html.LabelFor(model => model.ReferredFrom)
+                @Html.DropDownListFor(model => model.ReferredFrom, select_ReferredFrom, "Not Applicable", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ReferredFrom, null, new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group col-xl-3 col-sm-6">
+                @Html.LabelFor(model => model.CommunicationTypeId, new { @class = "form-control-label" })<span class="text-danger">*</span>
+                @Html.DropDownListFor(model => model.CommunicationTypeId, communicationTypes, "Select Communication Type", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CommunicationTypeId, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-xl-3 col-sm-6">
+                @Html.LabelFor(model => model.RequestTypeId, new { @class = "form-control-label" })<span class="text-danger">*</span>
+                @Html.DropDownListFor(model => model.RequestTypeId, requestTypes, "Select a Request Type", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RequestTypeId, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-xl-3 col-sm-6">
+                @Html.LabelFor(model => model.Bureau)
+                @Html.DropDownListFor(model => model.Bureau, select_Bureau, "Not Applicable", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Bureau, null, new { @class = "text-danger" })
+            </div>
+        </div>        
+        <div class="row">
+            <div class="form-group col-xl-3 col-lg-4 col-sm-6">
+                @Html.LabelFor(model => model.FirstName, new { @class = "form-control-label" })
+                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FirstName, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-xl-3 col-lg-4 col-sm-6">
+                @Html.LabelFor(model => model.LastName, new { @class = "form-control-label" })
+                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LastName, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-xl-3 col-lg-4 col-sm-6">
+                @Html.LabelFor(model => model.Email, new { @class = "form-control-label" })
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-xl-3 col-lg-4 col-sm-6">
+                @Html.LabelFor(model => model.Affilation)
+                @Html.TextBoxFor(model => model.Affilation, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Affilation, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p class="font-weight-bold text-warning">In order to add any phone numbers to the ticket, please press the +Add button after typing the phone number into the text field.</p>
+            </div>
+        </div>
+        <div class="row">
+            <input type="hidden" id="homePhoneID" name="HomePhoneTypeId" value="@Model.HomePhoneTypeId" />
+            <input type="hidden" id="workPhoneID" name="WorkPhoneTypeId" value="@Model.WorkPhoneTypeId" />
+            <input type="hidden" id="mobilePhoneID" name="MobilePhoneTypeId" value="@Model.MobilePhoneTypeId" />
+            <div id="addPhoneField" class="form-group col-sm-8 col-12 col-lg-6 col-xl-5">
+                <label class="form-control-label" for="addPhoneNumber">Add Phone Number</label>
+                <div class="d-flex">
+                    <div class="input-group">
+                        <input id="addPhoneNumber" type="text" name="addPhoneNumber" value="" class="form-control" maxlength="28"
+                               data-val="true" data-val-regex="Phone numbers only" />
+
+                        <div class="mr-2 input-group-append">
+                            <button id="btnDropDown" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" type="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Home Phone
+                            </button>
+                            <div id="slPhoneType" class="dropdown-menu" aria-labelledby="btnDropDown">
+                                <a class="dropdown-item" href="#" data-phoneType="@Model.HomePhoneTypeId">Home Phone   </a>
+                                <a class="dropdown-item" href="#" data-phoneType="@Model.WorkPhoneTypeId">Work Phone   </a>
+                                <a class="dropdown-item" href="#" data-phoneType="@Model.MobilePhoneTypeId">Mobile Number   </a>
+                            </div>
+                        </div>
+                        <button id="btnAddPhone" class="btn btn-primary" type="button"><span class="fa fa-plus"></span> Add</button>
+                    </div>
+                </div>
+                <span id="AddPhoneRequired" class="is-invalid text-danger"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-8">
+                <table class="table table-bordered border-primary table-striped bg-white">
+                    <tbody id="phoneTable">
+                        @if (Model.PhoneNumbers != null)
+                        {
+                            foreach (var phoneNumber in Model.PhoneNumbers)
+                            {
+                                <tr>
+                                    <td class="tdPhoneNumber w-50">@phoneNumber.Number <input type="hidden" class="PhoneNumberListItem" value="@phoneNumber.Number" data-val="true"></td>
+                                    <td class="w-25">@phoneNumber.PhoneType.PhoneTypeName <input type="hidden" class="PhoneTypeListItem" value="@phoneNumber.PhoneTypeId"></td>
+                                    <td class="w-25 text-center"> <button type="button" class="BTNremove btn btn-outline-danger btn-sm">Remove</button></td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="modalPhone" class="modal" role="dialog" aria-labelledby="modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="modalErrorMessage" class="text-center"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-6 col-xl-4">
+                <label class="form-control-label" for="AddressInvolved">Update Address Information?</label>
+                <select id="AddressInvolved" name="AddressInvolved" class="form-control w-50">
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                </select>
+            </div>
+        </div>
+        <fieldset class="AddressPanel" style="display:none">
+            <legend>Mailing Address</legend>
+            <div class="row">
+                <div class="form-group col-6 col-xl-6">
+                    <div class="custom-control custom-checkbox">
+                        @Html.CheckBoxFor(model => model.IsPOBox, new { @class = "custom-control-input" })
+                        <label class="custom-control-label" for="IsPOBox">Is this a Post Office Box?</label>
+                    </div>
+                </div>
+            </div>
+            <div id="MailingStreetAddress" class="row">
+                <div class="form-group col-xl-3 col-lg-4 col-sm-6">
+                    @Html.LabelFor(model => model.MailingAddress_StreetNumber, new { @class = "form-control-label" })
+                    @Html.TextBoxFor(model => model.MailingAddress_StreetNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MailingAddress_StreetNumber, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-lg-4 col-lg-4 col-sm-6">
+                    @Html.LabelFor(model => model.MailingAddress_StreetName, new { @class = "form-control-label" })
+                    @Html.TextBoxFor(model => model.MailingAddress_StreetName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MailingAddress_StreetName, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-xl-3 col-lg-4 col-sm-6">
+                    @Html.LabelFor(model => model.MailingAddress_AptNumber, new { @class = "form-control-label" })
+                    @Html.TextBoxFor(model => model.MailingAddress_AptNumber, new { @class = "form-control" })
+                </div>
+            </div>
+            <div id="MailingPOBoxAddress" class="row" style="display:none;">
+                <div class="form-group col-xl-3 col-lg-4 col-sm-6">
+                    @Html.LabelFor(model => model.MailingAddress_POBox, new { @class = "form-control-label" })
+                    @Html.TextBoxFor(model => model.MailingAddress_POBox, new { @class = "form-control", @Required = "True" })
+                    @Html.ValidationMessageFor(model => model.MailingAddress_POBox, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xl-3 col-lg-4 col-sm-6">
+                    @Html.LabelFor(model => model.MailingAddress_City, new { @class = "form-control-label" })
+                    @Html.TextBoxFor(model => model.MailingAddress_City, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MailingAddress_City, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-xl-2 col-lg-4 col-sm-6">
+                    @Html.LabelFor(model => model.MailingAddress_State, new { @class = "form-control-label" })
+                    @Html.DropDownListFor(model => model.MailingAddress_State, selectStates, "Select State", new { @class = "form-control" })
+                </div>
+                <div class="form-group col-xl-3 col-lg-4 col-sm-6">
+                    @Html.LabelFor(model => model.MailingAddress_Zip, new { @class = "form-control-label" })
+                    @Html.TextBoxFor(model => model.MailingAddress_Zip, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MailingAddress_Zip, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-xl-3 col-lg-4 col-sm-6">
+                    @Html.LabelFor(model => model.MailingAddress_CountyId, new { @class = "form-control-label" })
+                    @Html.DropDownListFor(model => model.MailingAddress_CountyId, new SelectList(Model.Select_Counties, "Id", "Name"), "Select a county", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.MailingAddress_CountyId, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </fieldset>
+        <fieldset class="AddressPanel" style="display: none">
+            <legend>Physical Address</legend>
+            <div class="row">
+                <div class="form-group col-xl-4 col-6 ">
+                    <div class="custom-control custom-checkbox">
+                        @Html.CheckBoxFor(model => model.PhysicalSameAsMailingAddress, new { @class = "custom-control-input" })
+                        <label class="custom-control-label" for="PhysicalSameAsMailingAddress">Same as mailing address?</label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xl-3 col-lg-4 col-sm-6">
+                    @Html.LabelFor(model => model.PhysicalAddress_StreetNumber, new { @class = "form-control-label" })
+                    @Html.TextBoxFor(model => model.PhysicalAddress_StreetNumber, new { @class = "form-control PhysicalAddress" })
+                    @Html.ValidationMessageFor(model => model.PhysicalAddress_StreetNumber, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-lg-4 col-sm-6">
+                    @Html.LabelFor(model => model.PhysicalAddress_StreetName, new { @class = "form-control-label" })
+                    @Html.TextBoxFor(model => model.PhysicalAddress_StreetName, new { @class = "form-control PhysicalAddress" })
+                    @Html.ValidationMessageFor(model => model.PhysicalAddress_StreetName, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-xl-3 col-lg-4 col-6">
+                    @Html.LabelFor(model => model.PhysicalAddress_AptNumber, new { @class = "form-control-label" })
+                    @Html.TextBoxFor(model => model.PhysicalAddress_AptNumber, new { @class = "form-control PhysicalAddress" })
+                    @Html.ValidationMessageFor(model => model.PhysicalAddress_AptNumber, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xl-3 col-lg-4 col-sm-6">
+                    @Html.LabelFor(model => model.PhysicalAddress_City, new { @class = "form-control-label" })
+                    @Html.TextBoxFor(model => model.PhysicalAddress_City, new { @class = "form-control PhysicalAddress" })
+                    @Html.ValidationMessageFor(model => model.PhysicalAddress_City, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-xl-2 col-lg-4 col-sm-6">
+                    @Html.LabelFor(model => model.PhysicalAddress_State, new { @class = "form-control-label" })
+                    @Html.DropDownListFor(model => model.PhysicalAddress_State, selectStates, "Select State", new { @class = "form-control PhysicalAddressDD" })
+                </div>
+                <div class="form-group col-xl-3 col-lg-4 col-sm-6">
+                    @Html.LabelFor(model => model.PhysicalAddress_Zip, new { @class = "form-control-label" })
+                    @Html.TextBoxFor(model => model.PhysicalAddress_Zip, new { @class = "form-control PhysicalAddress" })
+                    @Html.ValidationMessageFor(model => model.PhysicalAddress_Zip, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group col-xl-3 col-lg-4 col-sm-6">
+                    @Html.LabelFor(model => model.PhysicalAddress_CountyId, new { @class = "form-control-label" })
+                    @Html.DropDownListFor(model => model.PhysicalAddress_CountyId, new SelectList(Model.Select_Counties, "Id", "Name"), "Select County", new { @class = "form-control PhysicalAddressDD" })
+                    @Html.ValidationMessageFor(model => model.PhysicalAddress_CountyId, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset id="pnlRoute" class="hideable" style="display:none">
+        <legend>Edit Routing Information</legend>
+        <div class="row">
+            
+            <div class="form-group col-xl-3 col-lg-4 col-sm-6 ">
+                @Html.LabelFor(model => model.ProgramId, new { @class = "form-control-label" })
+                @Html.DropDownListFor(model => model.ProgramId, programs, new { @class = "form-control" })
+            </div>
+            <div class="form-group col-xl-3 col-lg-4 col-sm-6 ">
+                @Html.LabelFor(model => model.RouteCategoryId, new { @class = "form-control-label" })
+                @Html.DropDownListFor(model => model.RouteCategoryId, routingCategories, new { @class = "form-control" })
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset id="pnlTicketStatus" class="hideable">
+        <legend>Change Ticket Status</legend>
+        <div class="row">
+            <div class="form-group col-sm-6 col-xl-4 align-items-end">
+                @Html.LabelFor(model => model.StatusId, new { @class = "form-control-label" })
+                @Html.DropDownListFor(model => model.StatusId, statuses, new { @class = "form-control" })
+            </div>
+            <div class="col-sm-9">
+                @if (Model.StatusId == 1)
+                {
+                    <div class="alert alert-success text-center mb-0 mt-4  w-75 d-none">
+                        The Ticket will be marked as complete once you click Update.
+                    </div>
+                }
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset id="pnlNote">
+        <legend>Notes</legend>
+        <div class="row">
+            <div class="form-group col-6 col-xl-4">
+                <label class="form-control-label" for="ddCallerComments">Are there additional Caller Remarks?</label>
+                <select id="ddCallerComments" class="form-control">
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div id="pnlCallerComments" class="d-none">
+            <div class="row">
+                <div class="form-group col-xl-10">
+                    @Html.LabelFor(model => model.CallerRemarks, new { @class = "form-control-label" })<span class="text-danger">*</span>
+                    @Html.TextAreaFor(model => model.CallerRemarks, 4, 1, new { @class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.CallerRemarks, null, new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-xl-10">
+                    @Html.LabelFor(model => model.Resolution, new { @class = "form-control-label" })
+                    @Html.TextAreaFor(model => model.Resolution, 4, 1, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Resolution, null, new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-xl-10">
+                @Html.LabelFor(model => model.Comments, new { @class = "form-control-label" })
+                @Html.TextAreaFor(model => model.Comments, 4, 1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Comments, null, new { @class = "text-danger" })
+            </div>
+        </div>
+    </fieldset>
+    <div class="row">
+        <div class="form-group col-12 col-xl-6">
+            <input type="submit" value="Update Ticket" class="btn btn-success mr-2" />
+            @Html.ActionLink("Back to Ticket Details", "Details", "Ticket", new { id = Model.TicketId }, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryEdit")
+}
+
+

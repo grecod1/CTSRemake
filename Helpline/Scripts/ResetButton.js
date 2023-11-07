@@ -1,0 +1,23 @@
+$('#reset').click(function () {
+    $('#RouteCategoryId').val(null);
+    $('#ProgramId').val(null);
+    $('#RequestTypeId').val(null);
+    $('#CommunicationTypeId').val(null);
+    $('#ReferredFrom').val(null);
+    $('#Bureau').val(null);
+    $('#StreetNumber').val(null);
+    $('#StreetName').val(null);
+    $('#City').val(null);
+    $('#CountyId').val(null);
+    $('#State').val(null);
+    $('#StatusId').val(null);
+    $('#startDatePicker').val(null);
+    $('#endDatePicker').val(null);
+    $('#FirstTimeCallerValue').val(0);
+    $('#TrackingNumber').val(null);
+    $('#FirstName').val(null);
+    $('#LastName').val(null);
+    $('#Affiliation').val(null);
+    $('#CreatedBy_UserName').val(null);
+    $('#PhoneNumber').val(null);
+    })

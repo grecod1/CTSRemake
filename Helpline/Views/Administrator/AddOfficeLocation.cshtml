@@ -1,0 +1,51 @@
+﻿@model Helpline.ViewModels.AdminViewModels.UpdateOfficeLocationViewModel
+
+@{
+    ViewBag.Title = "Add Office Location";
+}
+
+@using (Html.BeginForm("AddOfficeLocation", "Administrator", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <h3 class="text-center">Add Location</h3>
+        @if (TempData["Error"] != null)
+        {
+            <p class="text-danger">@TempData["Error"]</p>
+        }
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="form-group col-lg-6 offset-lg-2">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-control-label" })
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-3 offset-lg-2">
+                    <input type="submit" value="Save" class="btn btn-success mr-1" />
+                    @Html.ActionLink("Back to List", "OfficeLocations", "Administrator", null, new { @class = "btn btn-primary" })
+                </div>
+                <div class="col-lg-3">
+                    @if (TempData["AlertPreExist"] != null)
+                    {
+                        <div class="alert alert-danger text-center" role="alert">
+                            Duplicate Entry
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/AdminEdit")
+}
+
+

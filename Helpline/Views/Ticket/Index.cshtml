@@ -1,0 +1,248 @@
+﻿@model Helpline.ViewModels.TicketIndexViewModel
+
+@{
+    ViewBag.Title = "Search Tickets";
+    SelectList selectRoutingCategory = new SelectList(Model.Select_RoutingCategory, "Id", "Name");
+    SelectList selectProgram = new SelectList(Model.Select_Program, "Id", "LongName");
+    SelectList selectRequestType = new SelectList(Model.Select_RequestType, "Id", "Name");
+    SelectList selectCommunicationType = new SelectList(Model.Select_CommunicationType, "Id", "Name");
+    SelectList selectCounty = new SelectList(Model.Select_Counties, "Id", "Name");
+    SelectList selectState = new SelectList(Model.Select_States);
+    SelectList selectStatus = new SelectList(Model.Select_Status, "Id", "Name");
+    SelectList select_ReferredFrom = new SelectList(Model.Select_ReferredFrom);
+    SelectList select_Bureau = new SelectList(Model.Select_Bureau);
+}
+
+<div class="row mb-3">
+    <div class="col-sm-12">
+        <h2>Ticket Search</h2>
+    </div>
+</div>
+@using (Html.BeginForm("Excel", "Ticket", FormMethod.Get))
+{
+    <div class="row">
+        <div class="form-group col-12 col-sm-6 col-xl-3">
+            @Html.LabelFor(model => model.TrackingNumber, 
+                new { @class = "form-control-label" })
+            @Html.TextBoxFor(model => model.TrackingNumber, 
+                new { @class = "form-control" })
+        </div>
+        <div class="form-group col-12 col-sm-6 col-xl-3">
+            @Html.LabelFor(model => model.StartDate,
+                new { @class = "form-control-label", @for = "startDatePicker" })
+            @Html.TextBoxFor(model => model.StartDate,
+                new { @Id = "startDatePicker", @class = "form-control DropDownGetData" })
+        </div>
+        <div class="form-group col-12 col-sm-6 col-xl-3">
+            @Html.LabelFor(model => model.EndDate,
+                new { @class = "form-control-label", @for = "endDatePicker" })
+            @Html.TextBoxFor(model => model.EndDate,
+                new { @Id = "endDatePicker", @class = "form-control DropDownGetData" })
+        </div>
+        <div class="form-group col-12 col-sm-6 col-xl-3">
+            @Html.LabelFor(model => model.CreatedBy_UserName, new { @class = "form-control-label" })
+            @Html.TextBoxFor(model => model.CreatedBy_UserName, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-xl-3 col-lg-4 col-sm-6 ">
+            @Html.LabelFor(model => model.FirstName, new { @class = "form-control-label" })
+            @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-xl-3 col-lg-4 col-sm-6 ">
+            @Html.LabelFor(model => model.LastName, new { @class = "form-control-label" })
+            @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-xl-3 col-lg-4 col-sm-6">
+            @Html.LabelFor(model => model.Affiliation)
+            @Html.TextBoxFor(model => model.Affiliation, new { @class = "form-control" })
+        </div>
+        <div class="form-group col-xl-3 col-lg-4 col-sm-6">
+            @Html.LabelFor(model => model.Bureau)
+            @Html.DropDownListFor(model => model.Bureau, select_Bureau, "Select Bureau", 
+                new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-12 col-sm-6 col-xl-3">
+            @Html.LabelFor(model => model.RequestTypeId, new { @class = "form-control-label" })
+            @Html.DropDownListFor(model => model.RequestTypeId, selectRequestType, "Select Request Type", 
+                new { @class = "form-control DropDownGetData" })
+        </div>
+        <div class="form-group col-12 col-sm-6 col-xl-3">
+            @Html.LabelFor(model => model.CommunicationTypeId, new { @class = "form-control-label" })
+            @Html.DropDownListFor(model => model.CommunicationTypeId, selectCommunicationType, 
+                "Select Communication Type", new { @class = "form-control DropDownGetData" })
+        </div>
+        <div class="form-group col-12 col-sm-6 col-xl-3">
+            @Html.LabelFor(model => model.ReferredFrom)
+            @Html.DropDownListFor(model => model.ReferredFrom, select_ReferredFrom, 
+                "Select Reference Type", new { @class = "form-control" })
+        </div>
+        <div class="form-group col-12 col-sm-6 col-xl-3">
+            @Html.LabelFor(model => model.StatusId, new { @class = "form-control-label" })
+            @Html.DropDownListFor(model => model.StatusId, selectStatus, "Pending and Complete", 
+                new { @class = "form-control DropDownGetData" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-12 col-sm-6 col-xl-3">
+            @Html.LabelFor(model => model.RouteCategoryId, new { @class = "form-control-label" })
+            @Html.DropDownListFor(model => model.RouteCategoryId, selectRoutingCategory, 
+                "Select Routing Category", new { @class = "form-control DropDownGetData" })
+        </div>
+        <div class="form-group col-12 col-sm-6 col-xl-3">
+            @Html.LabelFor(model => model.ProgramId, new { @class = "form-control-label" })
+            @Html.DropDownListFor(model => model.ProgramId, selectProgram, "Select Program", 
+                new { @class = "form-control DropDownGetData" })
+        </div>
+        <div class="form-group col-8 col-sm-6 col-xl-3">
+            @Html.LabelFor(model => model.PhoneNumber)
+            @Html.TextBoxFor(model => model.PhoneNumber, 
+                new { @class = "form-control phone-input", placeholder = "###-###-####" })
+        </div>
+        <div class="form-group col-8 col-sm-6 col-xl-3">
+            @Html.LabelFor(model => model.Email)
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="form-group col-8 col-sm-6 col-xl-3">
+            @Html.LabelFor(model => model.StreetNumber, new { @class = "form-control-label" })
+            @Html.TextBoxFor(model => model.StreetNumber, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group col-12 col-sm-6 col-xl-3">
+            @Html.LabelFor(model => model.StreetName, new { @class = "form-control-label" })
+            @Html.TextBoxFor(model => model.StreetName, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group col-12 col-sm-6 col-xl-2">
+            @Html.LabelFor(model => model.City, new { @class = "form-control-label" })
+            @Html.TextBoxFor(model => model.City, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group col-12 col-sm-6 col-xl-2">
+            @Html.LabelFor(model => model.CountyId, new { @class = "form-control-label" })
+            @Html.DropDownListFor(model => model.CountyId, selectCounty, "Select County", 
+                new { @class = "form-control DropDownGetData" })
+        </div>
+
+        <div class="form-group col-12 col-sm-6 col-xl-2">
+            @Html.LabelFor(model => model.State)
+            @Html.DropDownListFor(model => model.State, selectState, "Select State", 
+                new { @class = "form-control DropDownGetData" })
+        </div>
+    </div>
+
+    <div class="row mb-2">
+
+        <div class="col-12 d-none d-md-block mb-3">
+            <button id="GetData" class="btn btn-secondary" type="button"> 
+                <span class="fa fa-search"></span> Search
+            </button>
+            <button id="reset" class="btn btn-warning" type="button">Clear</button>
+            <button id="satistics" class="btn btn-info" type="button" name="satistics">Get Total Number</button>
+            @if (Model.CanViewReports)
+            {
+                <button id="btnExcelMobile" class="btn btn-info" type="submit">
+                    <span class="fa fa-file-excel-o"></span>
+                    Get Excel File
+                </button>
+            }
+        </div>
+        <div class="col-12 d-md-none">
+            <input id="reset" class="btn btn-warning btn-block mr-2" type="button" value="Clear Criteria" />
+            <button id="GetDataMobile" class="btn btn-secondary btn-block" type="button">
+                <span class="fa fa-search mr-2"></span> Search
+            </button>
+            @if (Model.CanViewReports)
+            {
+                <button id="btnExcelMobile" class="btn btn-info btn-block" type="submit">
+                    <span class="fa fa-file-excel-o"></span>
+                    Get Excel File
+                </button>
+
+            }
+            <button id="satisticsMobile" class="btn btn-info btn-block" type="button" name="satistics">
+                Get Total Number
+            </button>
+        </div>
+
+    </div>
+    <div id="modal" class="modal fade" role="dialog">
+        @*Modal shows up when user clicks on satistics button, shows then the total number of tickets that meet the criteria*@
+        <div class="modal-dialog border-primary" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="modalLoading" class="text-primary d-none">
+                        <div class="fa fa-2x fa-cog fa-spin" role="status">
+                            <span class="text-info sr-only">Loading...</span>
+                        </div>
+                        Loading...
+                    </div>
+                    <p id="amount"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<div class="row">
+    <div class="col-12 text-center">
+        <div id="loading" class="fa fa-3x fa-cog fa-spin text-primary m-1 d-none" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <p id="pError"></p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <table id="Table" class="table table-striped data-table-primary w-100"></table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div id="warningModal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-warning"><span class="fa fa-exclamation mr-1"></span> Notice</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Your search results yielded more than 2,000 samples, but this table can only support 2,000 results at most. 
+                        It is highly recommended that you narrow your search results.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/TicketIndex")
+}
+
+
+
+
+

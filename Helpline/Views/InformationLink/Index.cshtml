@@ -1,0 +1,33 @@
+﻿@model Helpline.ViewModels.InformationLinkViewModels.InformationLinkIndexViewModel
+
+@{
+    ViewBag.Title = "Links";
+}
+
+<h3 class="text-center">Information Links</h3>
+
+<div class="row">
+    <div class="col-sm-12">
+        <table id="Table" class="table table-striped">
+            <thead class="font-weight-bold">
+                <tr>
+                    <td>Name</td>
+                    <td>Hyper Link</td>
+                </tr>
+            </thead>
+            <tbody>               
+                @foreach(var informationLink in Model.InformationLinks)
+                {
+                    <tr>
+                        <td>@informationLink.Name</td>
+                        <td><a class="text-primary" href="@informationLink">  @informationLink.URL</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/InformationLinkIndex")
+    }

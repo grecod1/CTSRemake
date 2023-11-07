@@ -1,0 +1,36 @@
+﻿@model Helpline.ViewModels.AdminViewModels.AdminIndexViewModel
+
+@{
+    ViewBag.Title = "Information Links";
+    SelectList selectStatus = new SelectList(Model.Select_Status, "Id", "Name");
+}
+
+<h3 class="text-center">Information Links</h3>
+<div class="form-group row align-items-end">
+    <div class="col-sm-2">
+        @Html.ActionLink("Add Information Link", "AddInformationLink", "Administrator", null, new { @class = "btn btn-primary" })
+    </div>
+    <div class="col-sm-2">
+        <label class="form-control-label">
+            Status
+        </label>
+        @Html.DropDownListFor(model => model.StatusId, selectStatus, new { @class = "form-control" })
+    </div>
+    <div class="col-sm-2">
+        <input id="GetData" type="button" value="Search" class="btn btn-info align-self-end" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <h5 id="loading" class="text-info d-none">Loading...</h5>
+    </div>
+</div>
+
+<p id="TableError" class="text-danger text-center"></p>
+<table id="table" class="table table-striped"></table>
+    
+
+@section Scripts{
+    @Scripts.Render("~/bundles/InformationLinks")
+
+    }

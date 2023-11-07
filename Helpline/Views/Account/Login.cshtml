@@ -1,0 +1,62 @@
+﻿@using Helpline.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Log in";
+}
+
+<h2>@ViewBag.Title</h2>
+    
+        <section id="loginForm">
+            @using (Html.BeginForm("Login", "Account", new {returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.UserName, new { @class = "form-control-label" })                        
+                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        @Html.LabelFor(model => model.Password, new { @class = "form-control-label" })                        
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">                        
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(model => model.RememberMe)
+                            @Html.LabelFor(model => model.RememberMe)
+                        </div>                        
+                    </div>
+                </div>                
+                <div class="row">
+                    <div class="form-group col-sm-12">                        
+                        <input type="submit" value="Log in" class="btn btn-helpline_color text-light" />                        
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        @Html.ActionLink("Register as a new user", "Register", "Account", null, new { @class = "btn btn-md btn-helpline_color" })
+                        @Html.ActionLink("Forgot your password?", "ForgotPassword", null, new { @class = "btn btn-md btn-helpline_color" })
+                    </div>
+                </div>                
+                //Enable this once you have account confirmation enabled for password reset functionality                    
+            }
+        </section>
+        
+   
+    @*<div class="col-md-4">
+            <section id="socialLoginForm">
+                @Html.Partial("_ExternalLoginsListPartial", new Helpline.Models.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            </section>
+        </div>*@
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

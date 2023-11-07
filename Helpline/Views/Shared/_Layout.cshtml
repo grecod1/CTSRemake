@@ -1,0 +1,109 @@
+﻿@{
+    string serverName = HttpContext.Current.Request.Url.Host;
+    string listDomain = @"http://list.doacs.state.fl.us";
+    string disclaimer = "";
+    if (serverName.Contains("dev") || serverName.Contains("localhost"))
+    {
+        listDomain = @"http://listdev.doacs.state.fl.us";
+        disclaimer = "Dev";
+    }
+    else if (serverName.Contains("test"))
+    {
+        listDomain = @"http://listtest.doacs.state.fl.us";
+        disclaimer = "Test";
+    }
+    string sampleIndexView = listDomain + "/sample";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>@ViewBag.Title - CTS</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")    
+</head>
+<body>
+    <div class="navbar navbar-expand-xl bg-primary navbar-dark justify-content-xl-between mb-3 sticky-top">
+        <div class="d-flex flex-row align-content-center " style="align-items:center">
+            <a class="fullHdOnly" href="/Home/Index">
+                <img class="d-none d-xl-flex mr-2" 
+                     src="~/Content/images/FDACS-Seal.png" 
+                     alt="DPI Logo" 
+                     style="width: 6.5rem; height: 6rem" />
+            </a>
+            <a class="navbar-brand my-auto d-none d-xl-flex align-middle text-light" href="/Home/Index">
+                <span class="h1 mr-1">
+                    CTS
+                    <span class="fa fa-home ml-2"></span>
+                    <span id="disclaimer" class="text-disclaimer text-warning ml-2">@disclaimer</span>
+                </span>
+
+            </a>
+            <button type="button" class="navbar-dark navbar-toggler d-xl-none mr-xl-0" data-toggle="collapse" data-target="#togglerNav"
+                    aria-controls="togglerNav" aria-expanded="false" aria-label="Toggle Navigation">
+                <span class="navbar-toggler-icon d-inline-block"></span>
+            </button>
+            <a class="navbar-brand my-auto d-flex d-xl-none mr-0" href="/Home/Index">
+                <span class="h1 mr-1">CTS</span>
+                <span class="fa fa-home fa-3x ml-2"></span>
+            </a>
+        </div>
+        <div class="container">
+            <div id="togglerNav" class="collapse navbar-collapse text-xl-center">
+                <ul class="navbar-nav mx-xl-auto">
+                    <li class="nav-items"><a class="nav-link" href="/Ticket/Create">Create Ticket</a> </li>
+                    <li class="nav-items"><a class="nav-link" href="/Ticket">Search Tickets</a></li>
+                    <li class="nav-item"><a class="nav-link" href="@sampleIndexView" target="_blank">Search LIST</a></li>
+                    <li class="nav-item dropdown">
+                        <a href="#" id="navbarDropdown" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">Administrative Tasks</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a href="/EventLog/Index" class="dropdown-item">Event Logs</a>
+                            <a href="/Administrator/Programs" class="dropdown-item">Manage Programs</a>
+                            <a href="/Administrator/RequestTypes" class="dropdown-item">Manage Request Types</a>
+                            <a href="/Administrator/OfficeLocations" class="dropdown-item">Manage Office Locations</a>
+                            <a href="/Administrator/RoutingCategories" class="dropdown-item">Manage Routing Categories</a>
+                            <a href="/Administrator/Reports" class="dropdown-item">Reports</a>
+                            <a href="/User/Index" class="dropdown-item">Manage Users</a>
+                        </div>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/Home/About">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Home/Contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        @{
+            string now = DateTime.Today.ToString();
+            string today = DateTime.Now.ToString();
+            string todayAfternoonString = $"{DateTime.Today.ToShortDateString()} 12:00PM";
+
+            string display = DateTime.TryParse(todayAfternoonString, out DateTime todayAfternoon) ?
+                DateTime.Now < todayAfternoon ? "Good Morning" : "Good Afternoon"
+                : "Good day";
+        }
+        <div class="d-none d-xl-flex flex-column nav navbar-text navbar-right">
+            <h6 class="font-weight-bold">@display <span id="DisplayUserName"> @User.Identity.Name</span> </h6>
+            <span id="role" class="d-none d-xl-flex"></span>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>
+                &copy; @DateTime.Now.Year - CTS <br />
+                Division of Plant Industry <br />
+                Florida Department of Agriculture and Consumer Services
+            </p>
+        </footer>
+    </div>
+
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

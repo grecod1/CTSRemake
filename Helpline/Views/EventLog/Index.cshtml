@@ -1,0 +1,59 @@
+﻿@model Helpline.ViewModels.EventLogViewModels.EventLogIndexViewModel
+
+@{
+    ViewBag.Title = "Event Logs";
+    SelectList selectEventType = new SelectList(Model.Select_EventType, "Id", "EventTypeName");
+}
+<div class="row">
+    <div class="col-sm-12">
+        <h3 class="text-center">Event Logs</h3>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="form-group col-sm-6 col-xl-2">
+        @Html.LabelFor(model => model.StartDate, new { @class = "form-control-label", @for="startDatePicker" })
+        @Html.TextBoxFor(model => model.StartDate, new { @Id = "startDatePicker", @class = "form-control DropDownGetData" })
+    </div>
+    <div class="form-group col-sm-6 col-xl-2">
+        @Html.LabelFor(model => model.EndDate, new { @class = "form-control-label", @for="endDatePicker" })
+        @Html.TextBoxFor(model => model.EndDate, new { @Id = "endDatePicker", @class = "form-control DropDownGetData" })
+    </div>
+    <div class="form-group col-sm-6 col-xl-2">
+        @Html.LabelFor(model => model.EventTypeId, new { @class = "form-control-label" })
+        @Html.DropDownListFor(model => model.EventTypeId, selectEventType, "Event Type", new { @class = "form-control DropDownGetData" })
+    </div>
+    <div class="form-group col-sm-6 col-xl-3">
+        @Html.LabelFor(model => model.TicketTrackingNumber, new {@class = "form-control-label" })
+        @Html.TextBoxFor(model => model.TicketTrackingNumber, new {@class = "form-control" })
+        @Html.ValidationMessageFor(model => model.TicketTrackingNumber, null, new {@class = "text-center" })
+    </div>
+    <div class="form-group col-sm-6 col-xl-3">
+        @Html.LabelFor(model => model.UserName, new {@class = "form-control-label" })
+        @Html.TextBoxFor(model => model.UserName, new {@class = "form-control" })
+        @Html.ValidationMessageFor(model => model.UserName, null, new {@class = "text-danger" })
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 text-center mb-3">
+        <input id="reset" class="btn btn-warning mr-2" type="button" value="Clear Criteria" />
+        <button id="GetData" class="btn btn-secondary" type="button"> <span class="fa fa-search mr-2"></span> Search</button> 
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 text-center">
+        <div id="loading" class="fa fa-3x fa-cog fa-spin text-primary d-none" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <table id="Table" class="table table-striped data-table-primary w-100"></table>
+    </div>
+</div>
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryEventLogs")
+}
+

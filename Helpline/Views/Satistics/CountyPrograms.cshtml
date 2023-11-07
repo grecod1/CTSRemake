@@ -1,0 +1,37 @@
+﻿@model Helpline.ViewModels.StatisticsViewModels.SatisticsViewModel
+
+@{
+    ViewBag.Title = "Satistics";
+
+    SelectList programList = new SelectList(Model.Programs, "Id", "LongName");
+}
+
+<h3 class="text-center">County Information</h3>
+<div class="row justify-content-center">
+    <div class="form-group col-sm-2">
+        @Html.LabelFor(model => model.Date, new {@class = "form-control-label" })
+        @Html.TextBoxFor(model => model.Date, new { @Id = "DatePicker", @class = "form-control" })
+    </div>
+    <div class="form-group col-sm-3">
+        @Html.LabelFor(model => model.ProgramId, new {@class ="form-control-label" })
+        @Html.DropDownListFor(model => model.ProgramId, programList, new { @class = "form-control" })
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-sm-5">
+        <input id="GetData" type="button" class="btn btn-info" name="Search" value="Search" />
+    </div>
+</div>
+<h5 id="loading" class="text-info text-center d-none">Loading...</h5>
+<div class="row justify-content-center">    
+    <div class="col-sm-8">
+        <p id="Error" class="text-center text-danger d-none">Somthing isn't right</p>
+        <table id="Table" class="table table-striped w-100"></table>
+    </div>
+</div>
+
+@section Scripts{
+
+    @Scripts.Render("~/bundles/jqueryStatistics")
+    
+    }

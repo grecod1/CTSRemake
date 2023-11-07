@@ -1,0 +1,36 @@
+﻿@model Helpline.ViewModels.AdminViewModels.AdminIndexViewModel
+
+@{
+    ViewBag.Title = "Users";
+    SelectList statusList = new SelectList(Model.Select_Status, "Value", "Name");    
+    
+}
+<h3 class="text-center">List of Application Users</h3>
+
+
+    <div class="form-group row align-items-end justify-content-center">
+        <div class="col-12 col-sm-6 col-xl-2 mb-2 mb-xl-0 mr-5">
+            <a class="btn btn-primary" href="/User/Create"><span class="fa fa-plus mr-1"></span> Add User</a>            
+        </div>
+        <div class="col-12 col-sm-6 col-xl-2 mb-2 mb-xl-0">
+            <label class="form-control-label" for="StatusId">
+                Status
+            </label>
+            @Html.DropDownListFor(model => model.Status, statusList, "Both", new { @class = "form-control" })
+        </div>
+        <div class="col-12 col-sm-6 col-xl-2 mb-2 mb-xl-0">
+            <button id="GetData" class="btn btn-secondary" type="button" name="Search"><span class="fa fa-search mr-2"></span> Search</button>
+        </div>        
+    </div>
+
+<div class="row">
+    <div class="col-12">
+        <p id="TableError" class="text-danger"></p>
+        <p class="text-center"><span id="cogLoading" class="fa fa-cog fa-spin fa-3x text-primary d-none"></span></p>
+        <table id="table" class="table table-striped data-table-primary w-100"></table>
+    </div>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/Users");
+}
