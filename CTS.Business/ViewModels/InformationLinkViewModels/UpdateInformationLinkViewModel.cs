@@ -13,11 +13,11 @@ namespace Helpline.ViewModels.InformationLinkViewModels
         [Display(Name = "Information Link Name")]
         [RegularExpression(@"^[A-Z|a-z|\s|'|,|-]+$", ErrorMessage = "A name should only contain letters, no numbers or foriegn characters")]
         [Required]        
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Display(Name = "URL Address")]
         [Required]
-        public string URL { get; set; }
+        public string? URL { get; set; }
         public bool IsActive { get; set; }
     }
 }

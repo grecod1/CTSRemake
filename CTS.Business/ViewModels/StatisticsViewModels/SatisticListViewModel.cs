@@ -8,9 +8,9 @@ namespace Helpline.ViewModels.StatisticsViewModels
     public class SatisticListViewModel
     {
         /*Used as the list objects in the County Information View. */
-        public int CountyId { get; set; }
-        public string CountyName { get; set; }
-        public int OneDayRequest { get; set; }
-        public int TotalRequest { get; set; }
+        public int? CountyId { get; set; }
+        public string? CountyName { get; set; }
+        public int? OneDayRequest { get; set; }
+        public int? TotalRequest { get; set; }
     }
 }

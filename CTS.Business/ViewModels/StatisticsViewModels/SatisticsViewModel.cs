@@ -1,4 +1,4 @@
-﻿using Helpline.Models;
+﻿using CTS.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,7 +15,7 @@ namespace Helpline.ViewModels.StatisticsViewModels
          *is represented as JSON data.*/
         public DateTime? Date { get; set; }        
         [Display(Name = "Programs")]
-        public int ProgramId { get; set; }
+        public int? ProgramId { get; set; }
         public IEnumerable<Program> Programs { get; set; }
     }
 }

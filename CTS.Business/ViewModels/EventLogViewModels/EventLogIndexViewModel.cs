@@ -1,4 +1,4 @@
-﻿using Helpline.Models;
+﻿using CTS.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,10 +24,10 @@ namespace Helpline.ViewModels.EventLogViewModels
         public DateTime? EndDate { get; set; }
 
         [Display(Name = "User Who Performed Action")]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         [Display(Name = "Ticket Number")]
-        public string TicketTrackingNumber { get; set; }
+        public string? TicketTrackingNumber { get; set; }
 
         [Display(Name = "Event Type")]
         public int EventTypeId { get; set; }
