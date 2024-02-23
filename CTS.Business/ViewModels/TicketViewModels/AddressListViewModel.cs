@@ -13,13 +13,13 @@ namespace Helpline.ViewModels.TicketViewModels
     /// </summary>
     public class AddressListViewModel
     {
-        public string AddressType { get; set; }
-        public string AdddressNumber { get; set; }
-        public string AddressStreetName { get; set; }
-        public string AptNumber { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Zip { get; set; }
-        public string CountyName { get; set; }
+        public string? AddressType { get; set; }
+        public string? AdddressNumber { get; set; }
+        public string? AddressStreetName { get; set; }
+        public string? AptNumber { get; set; }
+        public string? City { get; set; }
+        public string? State { get; set; }
+        public string? Zip { get; set; }
+        public string? CountyName { get; set; }
     }
 }

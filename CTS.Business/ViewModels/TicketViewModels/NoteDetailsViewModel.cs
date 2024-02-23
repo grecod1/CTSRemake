@@ -14,11 +14,11 @@ namespace Helpline.ViewModels.TicketViewModels
     public class NoteDetailsViewModel
     {
         public int Id { get; set; }
-        public string CallerRemarks { get; set; }
-        public string Comments { get; set; }
-        public string Resolutions { get; set; }
-        public DateTime CreationDate { get; set; }
-        public string UserName { get; set; }
-        public string CreatedBy_UserName { get; set; }
+        public string? CallerRemarks { get; set; }
+        public string? Comments { get; set; }
+        public string? Resolutions { get; set; }
+        public DateTime? CreationDate { get; set; }
+        public string? UserName { get; set; }
+        public string? CreatedBy_UserName { get; set; }
     }
 }

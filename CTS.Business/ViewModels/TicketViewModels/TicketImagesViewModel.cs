@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,11 +18,11 @@ namespace Helpline.ViewModels.TicketViewModels
 
         [Display(Name = "Upload Image")]
         [Required]
-        public HttpPostedFile Image { get; set; }        
+        public IFormFile? Image { get; set; }        
 
         [RegularExpression(@"^[^@|$\|%\|/\|^\|(\|)\|?\|*\|<|>|+\|=]*$", ErrorMessage = "Invalid characters")]
         [MaxLength(10000, ErrorMessage = "Too many characters")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// Builds the Ticket Images 

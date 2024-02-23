@@ -1,5 +1,4 @@
-﻿using Helpline.DTOs.TicketDTOs;
-using Helpline.Models;
+﻿using CTS.Data.Models;
 using Helpline.ViewModels.TicketViewModels;
 using System;
 using System.Collections.Generic;
@@ -37,16 +36,16 @@ namespace Helpline.ViewModels
         public IEnumerable<Status> Select_Status { get; set; }
 
         [Display(Name = "How did the caller hear about us?")]
-        public string ReferredFrom { get; set; }
+        public string? ReferredFrom { get; set; }
         public IEnumerable<string> Select_ReferredFrom { get; set; }
 
-        public string Bureau { get; set; }
+        public string? Bureau { get; set; }
         public IEnumerable<string> Select_Bureau { get; set; }
 
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Display(Name = "Phone Number")]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
         [Display(Name = "Street Number")]
         public string StreetNumber { get; set; }

@@ -15,8 +15,8 @@ namespace Helpline.ViewModels.TicketViewModels
     public class PhoneListViewModel
     {
         [Display(Name = "Phone Number")]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         [Display(Name = "Phone Type")]
-        public string PhoneNumberType { get; set; }
+        public string? PhoneNumberType { get; set; }
     }
 }
