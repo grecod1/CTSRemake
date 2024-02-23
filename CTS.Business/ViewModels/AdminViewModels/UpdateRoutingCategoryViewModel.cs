@@ -14,13 +14,13 @@ namespace Helpline.ViewModels.AdminViewModels
         /*Unlike other objects the Administrator adds or updates the Routing Category has 
          *its own Update View Model because the Routing Category has it's own list of emails 
          the Administrator can add or remove.*/
-        public int Id { get; set; }
+        public int? Id { get; set; }
         
         [RegularExpression(@"^[^@$%\/\^\?\*<>+=]*$", ErrorMessage = "Invalid characters")]
         [Required]
-        public string Name { get; set; }
-        public IEnumerable<string> Emails { get; set; }
+        public string? Name { get; set; }
+        public IEnumerable<string>? Emails { get; set; }
         [Display(Name = "Status")]
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

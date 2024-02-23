@@ -10,4 +10,8 @@
     <Folder Include="Objects\CustomValidators\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CTS.Data\CTS.Data.csproj" />
+  </ItemGroup>
+
 </Project>

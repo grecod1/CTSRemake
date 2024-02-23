@@ -1,4 +1,4 @@
-﻿using Helpline.Models;
+﻿using CTS.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,7 +19,7 @@ namespace Helpline.ViewModels.AdminViewModels
         /// line chart.
         /// </summary>
         [Display(Name = "Program")]
-        public int ProgramId { get; set; }
+        public int? ProgramId { get; set; }
         public IEnumerable<Program> Select_Program { get; set; }
 
         /// <summary>
@@ -38,40 +38,40 @@ namespace Helpline.ViewModels.AdminViewModels
         /// Optional filter for the line chart.
         /// </summary>
         [Display(Name = "Routing Category")]
-        public int RoutingCategoryId { get; set; }
+        public int? RoutingCategoryId { get; set; }
         public IEnumerable<RoutingCategory> Select_RoutingCategory { get; set; }
 
         /// <summary>
         /// Optional filter for the line chart.
         /// </summary>
         [Display(Name = "Request Type")]
-        public int RequestTypeId { get; set; }
+        public int? RequestTypeId { get; set; }
         public IEnumerable<RequestType> Select_RequestType { get; set; }
 
         /// <summary>
         /// Optional filter for the line chart.
         /// </summary>
         [Display(Name = "Communication Type")]
-        public int CommunicationTypeId { get; set; }
+        public int? CommunicationTypeId { get; set; }
         public IEnumerable<CommunicationType> Select_CommunicationType { get; set; }
 
         /// <summary>
         /// Optional filter for the line chart.
         /// </summary>
         [Display(Name = "County")]
-        public int CountyId { get; set; }
+        public int? CountyId { get; set; }
         public IEnumerable<County> Select_County { get; set; }
 
         /// <summary>
         /// Optional filter for the line chart.
         /// </summary>
-        public string City { get; set; }
+        public string? City { get; set; }
 
         /// <summary>
         /// Optional filter for the line chart.
         /// </summary>
         [Display(Name = "Street Name")]
-        public string StreetName { get; set; }
+        public string? StreetName { get; set; }
 
         //End Search Criteria for Program Chart
 

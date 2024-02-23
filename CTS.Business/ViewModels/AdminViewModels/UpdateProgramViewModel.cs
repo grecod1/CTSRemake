@@ -16,18 +16,18 @@ namespace Helpline.ViewModels.AdminViewModels
         /// This will have a value for the 
         /// Edit Program View.
         /// </summary>
-        public int ProgramId { get; set; }
+        public int? ProgramId { get; set; }
 
         [Display(Name = "Short Name")]
-        public string ShortName { get; set; }
+        public string? ShortName { get; set; }
 
         [Display(Name = "Long Name")]
         [Required]        
-        public string LongName { get; set; }
+        public string? LongName { get; set; }
 
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         [Display(Name = "Status")]
-        public bool IsActive { get; set; }
+        public bool? IsActive { get; set; }
     }
 }

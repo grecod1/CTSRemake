@@ -17,13 +17,13 @@ namespace Helpline.ViewModels.AdminViewModels
         /// This will have a value for the Edit 
         /// Office View.
         /// </summary>
-        public int OfficeLocationId { get; set; }
+        public int? OfficeLocationId { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Display(Name = "Status")]
-        public bool IsActive { get; set; }
-        public string UserName { get; set; }
+        public bool? IsActive { get; set; }
+        public string? UserName { get; set; }
     }
 }

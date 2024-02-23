@@ -16,13 +16,13 @@ namespace Helpline.ViewModels.AdminViewModels
         /// This has a value if the user is editing 
         /// the request type.
         /// </summary>
-        public int RequestTypeId { get; set; }
+        public int? RequestTypeId { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Display(Name = "Status")]
-        public bool IsActive { get; set; }
-        public string UserName { get; set; }
+        public bool? IsActive { get; set; }
+        public string? UserName { get; set; }
     }
 }
